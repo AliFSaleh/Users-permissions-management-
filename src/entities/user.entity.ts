@@ -2,11 +2,13 @@ import {
     BeforeInsert,
     Column,
     Entity,
-    Index
+    Index,
+    OneToOne
 } from "typeorm";
 import model from "./mode.entity";
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
+import { Token } from "./personal_access_tokens.entity";
 
 @Entity()
 export class User extends model {
@@ -37,6 +39,9 @@ export class User extends model {
         nullable: true
     })
     verificationCode!: string | null
+
+    @OneToOne(() => Token, (token) => token.user)
+    token: Token
 
     @BeforeInsert()
     async hashPassword () {
