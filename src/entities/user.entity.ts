@@ -9,6 +9,7 @@ import model from "./mode.entity";
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { Token } from "./personal_access_tokens.entity";
+import { UserRole } from "./user_has_role.entity";
 
 @Entity()
 export class User extends model {
@@ -42,6 +43,9 @@ export class User extends model {
 
     @OneToOne(() => Token, (token) => token.user)
     token: Token
+
+    @OneToOne(() => UserRole, (userRole) => userRole.user)
+    userRole: UserRole
 
     @BeforeInsert()
     async hashPassword () {
