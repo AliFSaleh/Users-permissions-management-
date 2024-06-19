@@ -98,6 +98,7 @@ export const login = async (
             httpOnly: false,
         });
 
+        await tokenRepository.delete({user})
         await tokenRepository.save(tokenRepository.create({
             user, token: access_token
         }))

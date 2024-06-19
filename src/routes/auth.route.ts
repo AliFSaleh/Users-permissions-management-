@@ -2,7 +2,7 @@ import express from 'express'
 import { deserializeUser } from '../middlewares/deserializeUser'
 import { login, registerHandler } from '../controllers/auth.controller'
 import { validate } from '../middlewares/validate'
-import { createUserSchema } from '../schemas/user.schema'
+import { createUserSchema } from '../schema/user.schema'
 
 
 const router = express.Router()
