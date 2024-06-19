@@ -9,6 +9,8 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import AppError from './utils/appError'
 
+import authRouter from './routes/auth.route'
+
 validateEnv()
 AppDataSource.initialize().then(() => {
     const app = express()
@@ -24,7 +26,7 @@ AppDataSource.initialize().then(() => {
 
 
     // Your routes
-    
+    app.use('/api/auth', authRouter)
     
 
 
@@ -34,6 +36,8 @@ AppDataSource.initialize().then(() => {
     
     // Error Handling
     app.use('*', (req: Request, res:Response, next:NextFunction)=>{
+        console.log(req.originalUrl);
+        
         next (new AppError(404, `Route ${req.originalUrl} not found`))
     })
 
