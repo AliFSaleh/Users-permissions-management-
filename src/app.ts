@@ -10,6 +10,7 @@ import cors from 'cors'
 import AppError from './utils/appError'
 
 import authRouter from './routes/auth.route'
+import userRouter from './routes/user.route'
 import roleRouter from './routes/role.route'
 
 validateEnv()
@@ -28,6 +29,7 @@ AppDataSource.initialize().then(() => {
 
     // Your routes
     app.use('/api/auth', authRouter)
+    app.use('/api/users', userRouter)
     app.use('/api/roles', roleRouter)
     
 

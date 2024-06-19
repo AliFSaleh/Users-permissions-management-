@@ -3,13 +3,15 @@ import {
     Column,
     Entity,
     Index,
+    JoinTable,
+    ManyToMany,
     OneToOne
 } from "typeorm";
 import model from "./mode.entity";
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { Token } from "./personal_access_tokens.entity";
-import { UserRole } from "./user_has_role.entity";
+import { Role } from "./roles.entity";
 
 @Entity()
 export class User extends model {
@@ -44,8 +46,13 @@ export class User extends model {
     @OneToOne(() => Token, (token) => token.user)
     token: Token
 
-    @OneToOne(() => UserRole, (userRole) => userRole.user)
-    userRole: UserRole
+    @ManyToMany(() => Role, role => role.users)
+    @JoinTable({
+        name: 'user_roles',
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
+    })
+    roles: Role[];
 
     @BeforeInsert()
     async hashPassword () {

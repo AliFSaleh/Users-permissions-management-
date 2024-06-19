@@ -1,5 +1,5 @@
 import express from 'express'
-import { createRoleHandler } from '../controllers/role.controller'
+import { getRoleHandler, createRoleHandler } from '../controllers/role.controller'
 import { deserializeUser } from '../middlewares/deserializeUser'
 import { validate } from '../middlewares/validate'
 import { createRoleSchema } from '../schema/role.schema'
@@ -7,6 +7,7 @@ import { createRoleSchema } from '../schema/role.schema'
 const router = express.Router()
 
 router.route('/')
+        .get(deserializeUser, getRoleHandler)
         .post(deserializeUser, validate(createRoleSchema) ,createRoleHandler)
 
 

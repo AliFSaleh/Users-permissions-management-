@@ -18,3 +18,10 @@ export const createNewUser = async (input: Partial<User>) => {
 export const findUser = (query: Object) => {
     return userRepository.findOneBy(query)
 }
+
+export const getMe = async ({id}: {id:string}) => {
+    return await userRepository.findOne({
+        where: {id},
+        relations: ['roles', 'roles.permissions']
+    })
+}
