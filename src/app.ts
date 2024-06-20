@@ -13,6 +13,10 @@ import authRouter from './routes/auth.route'
 import userRouter from './routes/user.route'
 import roleRouter from './routes/role.route'
 
+import { deserializeUser } from './middlewares/deserializeUser'
+import { hasPermission } from './middlewares/checkPermission'
+import { hasRole } from './middlewares/checkRole'
+
 validateEnv()
 AppDataSource.initialize().then(() => {
     const app = express()
@@ -32,11 +36,19 @@ AppDataSource.initialize().then(() => {
     app.use('/api/users', userRouter)
     app.use('/api/roles', roleRouter)
     
-
-
-
-
-
+    app.get('/permission-test', deserializeUser, hasPermission('per 10'), (req: Request, res: Response, next:NextFunction) => {
+        res.status(200).json({
+            status: "SUCCESS",
+            data: null
+        })
+    })
+    
+    app.get('/role-test', deserializeUser, hasRole('admin'), (req: Request, res: Response, next:NextFunction) => {
+        res.status(200).json({
+            status: "SUCCESS",
+            data: null
+        })
+    })
     
     // Error Handling
     app.use('*', (req: Request, res:Response, next:NextFunction)=>{

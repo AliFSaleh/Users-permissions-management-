@@ -10,6 +10,7 @@ import {
 import AppError from "../utils/appError";
 import { AppDataSource } from "../utils/data-source";
 import { Token } from "../entities/personal_access_tokens.entity";
+import { getRoles } from "../services/role.service";
 
 const cookiesOptions: CookieOptions = {
     httpOnly: true,
@@ -44,7 +45,7 @@ export const registerHandler = async (
             name,
             email: email,
             password
-        });
+        }, null);
    
         const {verificationCode, hashedVerificationCode} = User.createVerificationCode()
         newUser.verificationCode = hashedVerificationCode;

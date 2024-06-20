@@ -1,3 +1,4 @@
+import { Role } from "../entities/roles.entity";
 import { User } from "../entities/user.entity";
 import { AppDataSource } from "../utils/data-source";
 
@@ -11,8 +12,15 @@ export const findUserById = async ({id}: {id: string}) => {
     return await userRepository.findOneBy({id})
 }
 
-export const createNewUser = async (input: Partial<User>) => {
-    return await userRepository.save(userRepository.create(input))
+export const createNewUser = async (input: Partial<User>, role: Role | null) => {
+    const user = new User()
+    user.name = input.name as string
+    user.email = input.email as string
+    user.password = input.password as string
+    user.roles = [role!]
+
+    await user.save()
+    return user
 }
 
 export const findUser = (query: Object) => {
